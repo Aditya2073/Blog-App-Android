@@ -54,7 +54,7 @@ public class SplashScreen extends AppCompatActivity {
     private void setupSignIn() {
         auth = FirebaseAuth.getInstance();
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.id.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -65,7 +65,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onStart() {
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
-            System.out.println("Home Page");
+            startActivity(new Intent(this, HomeScreen.class));
+            finish();
         }else {
             signIn();
         }
@@ -90,6 +91,8 @@ public class SplashScreen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(SplashScreen.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
+                            finish();
                         }else {
                             Toast.makeText(SplashScreen.this, "Login Failed", Toast.LENGTH_SHORT).show();
                             finish();

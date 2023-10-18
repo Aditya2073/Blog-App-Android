@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+    <group>
         <item
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:title="Item" />
+            android:title="Home"
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"/>
         <item
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:title="Item" />
+            android:title="Publish Blog"
+            android:id="@+id/nav_publish"
+            android:icon="@drawable/publish"/>
         <item
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:title="Item" />
+            android:title="Profile"
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/profile"/>
     </group>
 </menu>
