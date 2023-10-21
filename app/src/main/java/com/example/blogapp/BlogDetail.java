@@ -27,6 +27,8 @@ public class BlogDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_detail);
+        binding = ActivityBlogDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         showdata();
     }
 
@@ -56,7 +58,6 @@ public class BlogDetail extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_SUBJECT, title);
                 intent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(intent,"Share Using"));
-
                 HashMap<String,Object> map = new HashMap<>();
                 map.put("share_count", String.valueOf(n_count));
                 FirebaseFirestore.getInstance().collection("Blogs").document(id).update(map);

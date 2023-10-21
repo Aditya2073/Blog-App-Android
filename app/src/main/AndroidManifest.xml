@@ -24,6 +24,9 @@
             android:name=".BlogDetail"
             android:exported="false" />
         <activity
+            android:name="java.BlogDetail"
+            android:exported="false" />
+        <activity
             android:name=".HomeScreen"
             android:exported="true" />
         <activity

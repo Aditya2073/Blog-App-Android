@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,6 +29,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public Adapter(ArrayList<Model> list) {
         this.list = list;
         this.notifyDataSetChanged();
+    }
+    public void filter_list(ArrayList<Model> filter_list){
+        list = filter_list;
+        notifyDataSetChanged();
     }
 
 
@@ -53,9 +56,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(holder.author.getContext(), BlogDetail.class);
+                Intent intent = new Intent(view.getContext(), BlogDetail.class);
                 intent.putExtra("id", model.getId());
-                holder.author.getContext().startActivity(intent);
+                view.getContext().startActivity(intent);
             }
         });
 
@@ -65,7 +68,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.author.getContext());
                 builder.setTitle("What you want to do?");
 
-                builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         final Dialog u_dialog = new Dialog(holder.author.getContext());

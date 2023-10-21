@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -49,7 +50,38 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setupRv();
+        setusearchview();
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void setusearchview() {
+        binding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+    }
+
+    private void filter(String newText) {
+        ArrayList<Model> filtered_list = new ArrayList<>();
+        for(Model item:list){
+            if (item.getTittle().toString().toLowerCase().contains(newText)){
+                filtered_list.add(item);
+            }
+        }
+        if (filtered_list.isEmpty()){
+            //
+        }
+        else{
+            adapter.filter_list(filtered_list);
+        }
     }
 
     private void setupRv() {
