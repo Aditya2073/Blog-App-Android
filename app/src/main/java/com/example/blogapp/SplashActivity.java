@@ -1,15 +1,12 @@
 package com.example.blogapp;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.example.blogapp.databinding.SplashActivityBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,83 +20,75 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class SplashScreen extends AppCompatActivity {
+
+public class SplashActivity extends AppCompatActivity {
 
     SplashActivityBinding binding;
     GoogleSignInOptions signInOptions;
     GoogleSignInClient signInClient;
     FirebaseAuth auth;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_activity);
+        binding= SplashActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.white));
-        }
+        setupsignin();
 
-        binding = SplashActivityBinding.inflate(getLayoutInflater());
-        setupSignIn();
     }
 
-    private void setupSignIn() {
+    private void setupsignin() {
         auth = FirebaseAuth.getInstance();
-        signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        signInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-        signInClient = GoogleSignIn.getClient(this, signInOptions);
+        signInClient= GoogleSignIn.getClient(this,signInOptions);
     }
 
     @Override
     protected void onStart() {
         FirebaseUser currentUser = auth.getCurrentUser();
-        if(currentUser != null){
-            startActivity(new Intent(this, HomeScreen.class));
+        if (currentUser!=null){
+            startActivity(new Intent(this,HomeScreen.class));
             finish();
-        }else {
-            signIn();
+        }else{
+            sigin();
         }
         super.onStart();
     }
 
-    private void signIn() {
+    private void sigin() {
         Intent intent = signInClient.getSignInIntent();
-        startActivityForResult(intent, 100);
+        startActivityForResult(intent,100);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100){
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
+        if (requestCode==100){
+            Task<GoogleSignInAccount> task=GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
                 auth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(SplashScreen.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), HomeScreen.class));
+                        if (task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "Login Successful!!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),HomeScreen.class));
                             finish();
-                        }else {
-                            Toast.makeText(SplashScreen.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Login Failed!!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
                 });
-            }catch (ApiException e){
+            } catch (ApiException e) {
                 e.printStackTrace();
             }
         }

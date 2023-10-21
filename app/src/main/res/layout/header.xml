@@ -21,7 +21,6 @@
         android:textColor="@color/white"
         android:text="Blog App"
         android:textSize="18sp"
-        android:fontFamily="@font/poppins_semibold"
         />
 
     <TextView
@@ -31,6 +30,5 @@
         android:textColor="@color/white"
         android:text="Simple Text"
         android:textSize="14sp"
-        android:fontFamily="@font/poppins_semibold"
         />
 </LinearLayout>
